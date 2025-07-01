@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Arabic QWERTY Keyboard Trainer</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        #display {
+            width: 90%;
+            max-width: 800px;
+            height: 100px;
+            background-color: #2a2a2a;
+            border: 2px solid #444;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 30px;
+            font-size: 24px;
+            direction: ltr;
+            text-align: left;
+            overflow-y: auto;
+            word-wrap: break-word;
+        }
+
+        #keyboard {
+            background-color: #2a2a2a;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .row {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 5px;
+            justify-content: center;
+        }
+
+        .key {
+            background-color: #3a3a3a;
+            border: 1px solid #555;
+            border-radius: 8px;
+            padding: 12px;
+            min-width: 50px;
+            height: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.1s;
+            color: #fff;
+            font-size: 16px;
+            position: relative;
+            user-select: none;
+        }
+
+        .key:hover {
+            background-color: #4a4a4a;
+            transform: translateY(-2px);
+        }
+
+        .key:active, .key.active {
+            background-color: #5a5a5a;
+            transform: translateY(0);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .key.wide {
+            min-width: 80px;
+        }
+
+        .key.extra-wide {
+            min-width: 120px;
+        }
+
+        .key.space {
+            min-width: 300px;
+        }
+
+        .key .main {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .key .shift {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .key .alt {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .modifier {
+            background-color: #444;
+        }
+
+        .modifier.active {
+            background-color: #0a84ff;
+        }
+
+        #instructions {
+            margin-top: 30px;
+            text-align: center;
+            color: #ccc;
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <h1>لوحة المفاتيح العربية QWERTY - Apple</h1>
+    <div id="display"></div>
+    <div id="keyboard">
+        <!-- Function Keys Row -->
+        <div class="row">
+            <div class="key" data-key="Escape"><span class="main">esc</span></div>
+            <div class="key"><span class="main">F1</span></div>
+            <div class="key"><span class="main">F2</span></div>
+            <div class="key"><span class="main">F3</span></div>
+            <div class="key"><span class="main">F4</span></div>
+            <div class="key"><span class="main">F5</span></div>
+            <div class="key"><span class="main">F6</span></div>
+            <div class="key"><span class="main">F7</span></div>
+            <div class="key"><span class="main">F8</span></div>
+            <div class="key"><span class="main">F9</span></div>
+            <div class="key"><span class="main">F10</span></div>
+            <div class="key"><span class="main">F11</span></div>
+            <div class="key"><span class="main">F12</span></div>
+            <div class="key"><span class="main">⏻</span></div>
+        </div>
+
+        <!-- Numbers Row -->
+        <div class="row">
+            <div class="key" data-key="`" data-shift="~">
+                <span class="shift">±</span>
+                <span class="main">§</span>
+            </div>
+            <div class="key" data-key="1" data-shift="!">
+                <span class="shift">!</span>
+                <span class="main">١</span>
+            </div>
+            <div class="key" data-key="2" data-shift="@">
+                <span class="shift">@</span>
+                <span class="main">٢</span>
+            </div>
+            <div class="key" data-key="3" data-shift="#">
+                <span class="shift">#</span>
+                <span class="main">٣</span>
+            </div>
+            <div class="key" data-key="4" data-shift="$">
+                <span class="shift">$</span>
+                <span class="main">٤</span>
+            </div>
+            <div class="key" data-key="5" data-shift="%">
+                <span class="shift">%</span>
+                <span class="main">٥</span>
+            </div>
+            <div class="key" data-key="6" data-shift="^">
+                <span class="shift">^</span>
+                <span class="main">٦</span>
+            </div>
+            <div class="key" data-key="7" data-shift="&">
+                <span class="shift">&</span>
+                <span class="main">٧</span>
+            </div>
+            <div class="key" data-key="8" data-shift="*">
+                <span class="shift">*</span>
+                <span class="main">٨</span>
+            </div>
+            <div class="key" data-key="9" data-shift="(">
+                <span class="shift">(</span>
+                <span class="main">٩</span>
+            </div>
+            <div class="key" data-key="0" data-shift=")">
+                <span class="shift">)</span>
+                <span class="main">٠</span>
+            </div>
+            <div class="key" data-key="-" data-shift="_">
+                <span class="shift">-</span>
+                <span class="main">-</span>
+            </div>
+            <div class="key" data-key="=" data-shift="+">
+                <span class="shift">+</span>
+                <span class="main">=</span>
+            </div>
+            <div class="key wide" data-key="Backspace">
+                <span class="main">← الحذف</span>
+            </div>
+        </div>
+
+        <!-- QWERTY Row -->
+        <div class="row">
+            <div class="key wide" data-key="Tab">
+                <span class="main">→| |←</span>
+            </div>
+            <div class="key" data-key="q" data-shift="Q">
+                <span class="shift">َ</span>
+                <span class="main">ض</span>
+            </div>
+            <div class="key" data-key="w" data-shift="W">
+                <span class="shift">ً</span>
+                <span class="main">ص</span>
+            </div>
+            <div class="key" data-key="e" data-shift="E">
+                <span class="shift">ِ</span>
+                <span class="main">ث</span>
+            </div>
+            <div class="key" data-key="r" data-shift="R">
+                <span class="shift">ٍ</span>
+                <span class="main">ق</span>
+            </div>
+            <div class="key" data-key="t" data-shift="T">
+                <span class="shift">ُ</span>
+                <span class="main">ف</span>
+            </div>
+            <div class="key" data-key="y" data-shift="Y">
+                <span class="shift">ٌ</span>
+                <span class="main">غ</span>
+            </div>
+            <div class="key" data-key="u" data-shift="U">
+                <span class="shift">ْ</span>
+                <span class="main">ع</span>
+            </div>
+            <div class="key" data-key="i" data-shift="I">
+                <span class="shift">ّ</span>
+                <span class="main">ه</span>
+            </div>
+            <div class="key" data-key="o" data-shift="O">
+                <span class="shift">[</span>
+                <span class="main">خ</span>
+            </div>
+            <div class="key" data-key="p" data-shift="P">
+                <span class="shift">]</span>
+                <span class="main">ح</span>
+            </div>
+            <div class="key" data-key="[" data-shift="{">
+                <span class="shift">{</span>
+                <span class="main">ج</span>
+            </div>
+            <div class="key" data-key="]" data-shift="}">
+                <span class="shift">}</span>
+                <span class="main">ة</span>
+            </div>
+            <div class="key wide" data-key="\" data-shift="|">
+                <span class="main">الرجوع</span>
+            </div>
+        </div>
+
+        <!-- ASDF Row -->
+        <div class="row">
+            <div class="key extra-wide modifier" data-key="CapsLock">
+                <span class="main">تثبيت العالي</span>
+            </div>
+            <div class="key" data-key="a" data-shift="A">
+                <span class="shift">«</span>
+                <span class="main">ش</span>
+            </div>
+            <div class="key" data-key="s" data-shift="S">
+                <span class="shift">»</span>
+                <span class="main">س</span>
+            </div>
+            <div class="key" data-key="d" data-shift="D">
+                <span class="shift">ى</span>
+                <span class="main">ي</span>
+            </div>
+            <div class="key" data-key="f" data-shift="F">
+                <span class="main">ب</span>
+            </div>
+            <div class="key" data-key="g" data-shift="G">
+                <span class="main">ل</span>
+            </div>
+            <div class="key" data-key="h" data-shift="H">
+                <span class="shift">آ</span>
+                <span class="main">ا</span>
+            </div>
+            <div class="key" data-key="j" data-shift="J">
+                <span class="main">ت</span>
+            </div>
+            <div class="key" data-key="k" data-shift="K">
+                <span class="main">ن</span>
+            </div>
+            <div class="key" data-key="l" data-shift="L">
+                <span class="main">م</span>
+            </div>
+            <div class="key" data-key=";" data-shift=":">
+                <span class="shift">:</span>
+                <span class="main">ك</span>
+            </div>
+            <div class="key" data-key="'" data-shift='"'>
+                <span class="shift">"</span>
+                <span class="main">؛</span>
+            </div>
+            <div class="key" data-key="\" data-shift='|'>
+                <span class="shift">|</span>
+                <span class="main">\</span>
+            </div>
+            <div class="key wide" data-key="Enter">
+                <span class="main">↵</span>
+            </div>
+        </div>
+
+        <!-- ZXCV Row -->
+        <div class="row">
+            <div class="key extra-wide modifier" data-key="Shift">
+                <span class="main">⇧ العالي</span>
+            </div>
+            <div class="key" data-key="z" data-shift="Z">
+                <span class="shift">~</span>
+                <span class="main">-</span>
+            </div>
+            <div class="key" data-key="x" data-shift="X">
+                <span class="main">ظ</span>
+            </div>
+            <div class="key" data-key="c" data-shift="C">
+                <span class="main">ط</span>
+            </div>
+            <div class="key" data-key="v" data-shift="V">
+                <span class="shift">ئ</span>
+                <span class="main">ذ</span>
+            </div>
+            <div class="key" data-key="b" data-shift="B">
+                <span class="shift">ء</span>
+                <span class="main">د</span>
+            </div>
+            <div class="key" data-key="n" data-shift="N">
+                <span class="shift">أ</span>
+                <span class="main">ز</span>
+            </div>
+            <div class="key" data-key="m" data-shift="M">
+                <span class="shift">إ</span>
+                <span class="main">ر</span>
+            </div>
+            <div class="key" data-key="," data-shift="<">
+                <span class="shift">ؤ</span>
+                <span class="main">و</span>
+            </div>
+            <div class="key" data-key="." data-shift=">">
+                <span class="shift"><</span>
+                <span class="main">،</span>
+            </div>
+            <div class="key" data-key="/" data-shift="?">
+                <span class="shift">></span>
+                <span class="main">.</span>
+            </div>
+            <div class="key" data-key="\" data-shift="|">
+                <span class="shift">؟</span>
+                <span class="main">/</span>
+            </div>
+            <div class="key extra-wide modifier" data-key="Shift">
+                <span class="main">العالي ⇧</span>
+            </div>
+        </div>
+
+        <!-- Bottom Row -->
+        <div class="row">
+            <div class="key modifier" data-key="fn">
+                <span class="main">fn</span>
+            </div>
+            <div class="key modifier" data-key="Control">
+                <span class="main">ctrl</span>
+            </div>
+            <div class="key modifier" data-key="Alt">
+                <span class="main">⌥</span>
+            </div>
+            <div class="key wide modifier" data-key="Meta">
+                <span class="main">⌘ cmd</span>
+            </div>
+            <div class="key space" data-key=" ">
+                <span class="main"></span>
+            </div>
+            <div class="key wide modifier" data-key="Meta">
+                <span class="main">cmd ⌘</span>
+            </div>
+            <div class="key modifier" data-key="Alt">
+                <span class="main">⌥</span>
+            </div>
+            <div class="key"><span class="main">◄</span></div>
+            <div class="key"><span class="main">▼</span></div>
+            <div class="key"><span class="main">►</span></div>
+        </div>
+    </div>
+
+    <div id="instructions">
+        <p>اضغط على المفاتيح لكتابة النص العربي. استخدم مفتاح Shift للوصول إلى الأحرف الثانوية.</p>
+        <p>Click on the keys to type Arabic text. Use Shift for secondary characters.</p>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        let shiftPressed = false;
+        let capsLockOn = false;
+
+        // Key mappings - corrected according to your specifications
+        const keyMap = {
+            '`': { normal: '§', shift: '±' },
+            '1': { normal: '١', shift: '!' },
+            '2': { normal: '٢', shift: '@' },
+            '3': { normal: '٣', shift: '#' },
+            '4': { normal: '٤', shift: '$' },
+            '5': { normal: '٥', shift: '%' },
+            '6': { normal: '٦', shift: '^' },
+            '7': { normal: '٧', shift: '&' },
+            '8': { normal: '٨', shift: '*' },
+            '9': { normal: '٩', shift: '(' },
+            '0': { normal: '٠', shift: ')' },
+            '-': { normal: '-', shift: '_' },
+            '=': { normal: '=', shift: '+' },
+            'q': { normal: 'ض', shift: 'َ' },
+            'w': { normal: 'ص', shift: 'ً' },
+            'e': { normal: 'ث', shift: 'ِ' },
+            'r': { normal: 'ق', shift: 'ٍ' },
+            't': { normal: 'ف', shift: 'ُ' },
+            'y': { normal: 'غ', shift: 'ٌ' },
+            'u': { normal: 'ع', shift: 'ْ' },
+            'i': { normal: 'ه', shift: 'ّ' },
+            'o': { normal: 'خ', shift: '[' },
+            'p': { normal: 'ح', shift: ']' },
+            '[': { normal: 'ج', shift: '{' },
+            ']': { normal: 'ة', shift: '}' },
+            'a': { normal: 'ش', shift: '«' },
+            's': { normal: 'س', shift: '»' },
+            'd': { normal: 'ي', shift: 'ى' },
+            'f': { normal: 'ب', shift: ']' },
+            'g': { normal: 'ل', shift: 'لأ' },
+            'h': { normal: 'ا', shift: 'آ' },
+            'j': { normal: 'ت', shift: 'ـ' },
+            'k': { normal: 'ن', shift: '،' },
+            'l': { normal: 'م', shift: '/' },
+            ';': { normal: 'ك', shift: ':' },
+            "'": { normal: '؛', shift: '"' },
+            '\\': { normal: '/', shift: '|' },
+            'z': { normal: '-', shift: '~' },
+            'x': { normal: 'ظ', shift: 'ْ' },
+            'c': { normal: 'ط', shift: '{' },
+            'v': { normal: 'ذ', shift: 'ئ' },
+            'b': { normal: 'د', shift: 'ء' },
+            'n': { normal: 'ز', shift: 'أ' },
+            'm': { normal: 'ر', shift: 'إ' },
+            ',': { normal: 'و', shift: 'ؤ' },
+            '.': { normal: '،', shift: '<' },
+            '/': { normal: '.', shift: '>' },
+            '\\': { normal: '/', shift: '؟' },
+            ' ': { normal: ' ', shift: ' ' }
+        };
+
+        // Handle key clicks
+        document.querySelectorAll('.key').forEach(key => {
+            key.addEventListener('click', function() {
+                const keyData = this.dataset.key;
+                
+                if (keyData === 'Shift') {
+                    toggleShift();
+                } else if (keyData === 'CapsLock') {
+                    toggleCapsLock();
+                } else if (keyData === 'Backspace') {
+                    display.textContent = display.textContent.slice(0, -1);
+                } else if (keyData === 'Enter') {
+                    display.textContent += '\n';
+                } else if (keyData === 'Tab') {
+                    display.textContent += '\t';
+                } else if (keyData && keyMap[keyData]) {
+                    const char = (shiftPressed || capsLockOn) ? keyMap[keyData].shift : keyMap[keyData].normal;
+                    display.textContent += char;
+                    
+                    // Auto-release shift after typing (unless caps lock is on)
+                    if (shiftPressed && !capsLockOn) {
+                        toggleShift();
+                    }
+                }
+                
+                // Highlight the key briefly
+                this.classList.add('active');
+                setTimeout(() => this.classList.remove('active'), 100);
+            });
+        });
+
+        function toggleShift() {
+            shiftPressed = !shiftPressed;
+            document.querySelectorAll('.key[data-key="Shift"]').forEach(key => {
+                key.classList.toggle('active', shiftPressed);
+            });
+        }
+
+        function toggleCapsLock() {
+            capsLockOn = !capsLockOn;
+            document.querySelector('.key[data-key="CapsLock"]').classList.toggle('active', capsLockOn);
+        }
+
+        // Handle physical keyboard input
+        document.addEventListener('keydown', function(e) {
+            e.preventDefault(); // Prevent default browser behavior
+            
+            if (e.key === 'Shift') {
+                shiftPressed = true;
+                document.querySelectorAll('.key[data-key="Shift"]').forEach(key => {
+                    key.classList.add('active');
+                });
+                return;
+            }
+            
+            // Handle special keys
+            if (e.key === 'Backspace') {
+                display.textContent = display.textContent.slice(0, -1);
+                const backspaceKey = document.querySelector('.key[data-key="Backspace"]');
+                if (backspaceKey) {
+                    backspaceKey.classList.add('active');
+                    setTimeout(() => backspaceKey.classList.remove('active'), 100);
+                }
+                return;
+            }
+            
+            if (e.key === 'Enter') {
+                display.textContent += '\n';
+                const enterKey = document.querySelector('.key[data-key="Enter"]');
+                if (enterKey) {
+                    enterKey.classList.add('active');
+                    setTimeout(() => enterKey.classList.remove('active'), 100);
+                }
+                return;
+            }
+            
+            if (e.key === 'Tab') {
+                display.textContent += '\t';
+                const tabKey = document.querySelector('.key[data-key="Tab"]');
+                if (tabKey) {
+                    tabKey.classList.add('active');
+                    setTimeout(() => tabKey.classList.remove('active'), 100);
+                }
+                return;
+            }
+            
+            // Handle regular keys
+            const keyLower = e.key.toLowerCase();
+            if (keyMap[keyLower]) {
+                const char = (e.shiftKey || shiftPressed || capsLockOn) ? keyMap[keyLower].shift : keyMap[keyLower].normal;
+                display.textContent += char;
+                
+                // Highlight the corresponding key
+                const keyElement = document.querySelector(`.key[data-key="${keyLower}"]`);
+                if (keyElement) {
+                    keyElement.classList.add('active');
+                    setTimeout(() => keyElement.classList.remove('active'), 100);
+                }
+            }
+        });
+
+        document.addEventListener('keyup', function(e) {
+            if (e.key === 'Shift') {
+                shiftPressed = false;
+                document.querySelectorAll('.key[data-key="Shift"]').forEach(key => {
+                    key.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
